@@ -6,9 +6,12 @@
 @endsection
 @section('content')
 
-
+<ul class="list-group">
     @foreach($products as $product)
-        <p>{{ $product->name }}</p>
+        <li class="list-group-item">
+            <a href="{{ route('product.show', $product->id)}}">{{ $product->name }}</a>
+        </li>
     @endforeach
-    
+  </ul>
+
 @endsection
