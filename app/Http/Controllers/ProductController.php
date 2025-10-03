@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\UploadProductImage;
+use App\Jobs\DeleteProductImage;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -36,7 +37,7 @@ class ProductController extends Controller
             'discount_price' => ['nullable', 'decimal:0,2', 'min:0'],
             'cost' => ['decimal:0,2', 'min:0'],
             'images' => ['nullable','array'],
-            'images.*' => ['image','mimes:jpg,jpeg,png,webp','max:5120'],
+            'images.*' => ['image','mimes:jpg,jpeg,png,webp','max:10240'],
         ]);
 
         // Log::info('store 1'. now());
@@ -85,17 +86,58 @@ class ProductController extends Controller
 
     }
 
-    public function update(Product $product){
+    public function update(Request $request, Product $product){
 
-        $data = request()->validate([
+        $validated = request()->validate([
             'name' => ['required', 'string', 'max:255'],
             'description' => 'string',
             'price' => ['decimal:0,2', 'min:0'],
             'discount_price' => ['nullable', 'decimal:0,2', 'min:0'],
             'cost' => ['decimal:0,2', 'min:0'],
+
+            'images'         => ['nullable','array'],
+            'images.*'       => ['image','mimes:jpg,jpeg,png,webp','max:10240'],
+
+            'delete_images'  => ['nullable','array'],
+            'delete_images.*'=> ['integer'],
         ]);
 
+        $data = Arr::except($validated, ['images','delete_images']);
+
         $product->update($data);
+
+        $deleteImagesIds = $validated['delete_images'];
+
+        if ($deleteImagesIds) {
+
+            DeleteProductImage::dispatch(
+                deleteImagesIds: $deleteImagesIds,
+                productId:  $product->id,
+            )->onQueue('default');
+
+        }
+
+        if ($request->hasFile('images')) {
+
+            // Log::info('store 2'. now());
+            
+            foreach ($request->file('images') as $i => $file) {
+                // зберігаємо в local (НЕ public), щоб файл пережив життєвий цикл реквесту
+                $tmpPath = $file->storeAs(
+                    'tmp/products',
+                    \Illuminate\Support\Str::uuid().'.'.$file->getClientOriginalExtension(),
+                    'local'
+                );
+    
+                UploadProductImage::dispatch(
+                    productName: $product->name,
+                    productId:  $product->id,
+                    tmpPath:    $tmpPath,
+                    position:   $i,
+                    isPrimary:  $i === 0,  
+                )->onQueue('default');
+            }
+        }
 
         return view('product.show', compact('product'));
     }

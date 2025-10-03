@@ -5,8 +5,6 @@ namespace App\Jobs;
 use App\Models\ProductImage;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -14,7 +12,7 @@ use Illuminate\Support\Facades\Log;
 
 class UploadProductImage implements ShouldQueue
 {
-     use Queueable, InteractsWithQueue, SerializesModels;
+     use Queueable;
 
     /**
      * Create a new job instance.

@@ -8,6 +8,20 @@
 
 @section('content')
 
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $msg)
+                <li>{{ $msg }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+@error('name')
+    <div class="text-red-600">{{ $message }}</div>
+@enderror
+
 <form action="{{ route('product.update', $product->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('patch')
@@ -43,15 +57,28 @@
     <div class="ratio ratio-1x1" style="width:220px;">
       @if ($cover)
         <img src="{{ $cover->url('large') }}" class="rounded w-100 h-100" style="object-fit:cover" alt="">
+        <button type="button"
+                class="js-del btn btn-light btn-sm p-1 position-absolute top-0 end-0 m-1 w-auto h-auto"
+                data-image-id="{{ $cover->id }}"
+                aria-label="Видалити">
+          <i class="bi bi-trash-fill text-danger"></i>
+        </button>
       @endif
     </div>
 
     <div class="d-flex flex-wrap gap-3 flex-grow-1">
 
       @foreach ($thumbs->take($limit) as $img)
-        <div class="ratio ratio-1x1 shadow-sm rounded" style="width:100px;">
-          <img src="{{ $img->url('small') }}" class="rounded w-100 h-100" style="object-fit:cover" alt="">
-        </div>
+      <div class="ratio ratio-1x1 shadow-sm rounded position-relative" style="width:100px;">
+        <img src="{{ $img->url('small') }}" class="rounded w-100 h-100" style="object-fit:cover" alt="">
+      
+        <button type="button"
+                class="js-del btn btn-light btn-sm p-1 position-absolute top-0 end-0 m-1 w-auto h-auto"
+                data-image-id="{{ $img->id }}"
+                aria-label="Видалити">
+          <i class="bi bi-trash-fill text-danger"></i>
+        </button>
+      </div>
       @endforeach
 
       @if ($rest > 0)
@@ -67,6 +94,7 @@
         <label for="formFileMultiple" class="form-label">Ви можете завантажити зображення до 10Mb</label>
         <input class="form-control" type="file" name="images[]" id="formFileMultiple" accept="image/png,image/jpeg,image/webp" multiple>
     </div>
+    <div id="delete-inputs"></div>
     </div>
 </div>
 
@@ -148,6 +176,36 @@
       uploadcare_public_key: '095956eebcc4fa01f730',
     });
   </script>
+
+<script>
+    document.addEventListener('click', function (e) {
+      const btn = e.target.closest('.js-del');
+    //   if (!btn) return;
+    
+    //   const tile = btn.closest('[data-id]');
+    //   const id = tile?.dataset?.id || btn.dataset.id; // для головного фото
+      const id = btn.getAttribute('data-image-id'); 
+      console.log(id);
+    //   if (!id) return;
+
+      const closestParent = btn.closest('.ratio');
+      closestParent.remove();
+
+
+      const holder = document.getElementById('delete-inputs');
+      const existing = holder.querySelector(`input[name="delete_images[]"][value="${id}"]`);
+      if (existing) {
+        existing.remove();
+      } else {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'delete_images[]';
+        input.value = id;
+        holder.appendChild(input);
+      }
+    });
+    </script>
+    
 
 @endsection
 
