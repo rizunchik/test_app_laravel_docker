@@ -8,7 +8,7 @@
 
 @section('content')
 
-<form action="{{ route('product.update', $product->id) }}" method="POST">
+<form action="{{ route('product.update', $product->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('patch')
     <div class="card shadow-sm mb-4">

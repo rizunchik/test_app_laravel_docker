@@ -8,7 +8,21 @@
 
 @section('content')
 
-<form action="{{ route('product.store') }}" method="POST">
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $msg)
+                <li>{{ $msg }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+@error('name')
+    <div class="text-red-600">{{ $message }}</div>
+@enderror
+
+<form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="card shadow-sm mb-4">
         <div class="card-body">
@@ -29,7 +43,7 @@
             <p>Зображення</p>
             <div class="mb-3">
                 <label for="formFileMultiple" class="form-label">Ви можете завантажити зображення до 10Mb</label>
-                <input class="form-control" type="file" id="formFileMultiple" multiple>
+                <input class="form-control" type="file" name="images[]" id="formFileMultiple" accept="image/png,image/jpeg,image/webp" multiple>
             </div>
         </div>
     </div>
@@ -57,26 +71,26 @@
 
         <div class="row">
             <div class="col">
-                <label for="price" class="form-label">Собівартість</label>
+                <label for="cost" class="form-label">Собівартість</label>
                 <div class="input-group">
                     <span class="input-group-text">₴</span>
-                <input type="text" class="form-control">
+                    <input type="text" name="cost" id="cost" class="form-control">
                 </div>
                 
             </div>
             <div class="col input-group">
-                <label for="price" class="form-label">Прибуток</label>
+                <label for="profit" class="form-label">Прибуток</label>
                 <div class="input-group">
                     <span class="input-group-text">₴</span>
-                <input type="text" class="form-control">
+                    <input type="text" ame="profit" id="profit" class="form-control">
                 </div>
                 
             </div>
             <div class="col input-group">
-                <label for="price" class="form-label">Маржа</label>
+                <label for="marga" class="form-label">Маржа</label>
                 <div class="input-group">
                     <span class="input-group-text">₴</span>
-                    <input type="text" class="form-control">
+                    <input type="text" ame="marga" id="marga" class="form-control">
                 </div>
             </div>
         </div>

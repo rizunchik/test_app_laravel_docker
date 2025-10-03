@@ -6,6 +6,7 @@ use App\Jobs\UploadProductImage;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Arr;
 
 
 class ProductController extends Controller
@@ -25,11 +26,12 @@ class ProductController extends Controller
 
     public function store(Request $request){
 
-        \App\Jobs\DemoJob::dispatch();
+        Log::info('store '. now());
+        Log::info(request());
 
-        $data = request()->validate([
+        $validated = request()->validate([
             'name' => ['required', 'string', 'max:255'],
-            'description' => 'string',
+            'description' => ['nullable', 'string'],
             'price' => ['decimal:0,2', 'min:0'],
             'discount_price' => ['nullable', 'decimal:0,2', 'min:0'],
             'cost' => ['decimal:0,2', 'min:0'],
@@ -37,9 +39,17 @@ class ProductController extends Controller
             'images.*' => ['image','mimes:jpg,jpeg,png,webp','max:5120'],
         ]);
 
+        Log::info('store 1'. now());
+
+        $data = Arr::except($validated, ['images']);
+
         $product = Product::create($data);
 
+        Log::info('product create '. now());
+
         if ($request->hasFile('images')) {
+
+            Log::info('store 2'. now());
             
             foreach ($request->file('images') as $i => $file) {
                 // зберігаємо в local (НЕ public), щоб файл пережив життєвий цикл реквесту
@@ -53,10 +63,11 @@ class ProductController extends Controller
                     productId:  $product->id,
                     tmpPath:    $tmpPath,
                     position:   $i,
-                    isPrimary:  $i === 0,  // перше — головне
-                    alt:        null,
+                    isPrimary:  $i === 0,  
                 )->onQueue('default');
             }
+        }else{
+            Log::info($request->hasFile('images'));
         }
 
         return redirect()->route('product.index');
