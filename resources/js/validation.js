@@ -72,7 +72,10 @@ function validate() {
 
     if (isDiscountEl.checked) {
 
+
+
         if( price <= discountPrice){
+            console.log(1)
             
             validateWarn(priceEl, validationPriceMoreThenDiscountPriceEl);
             return;
@@ -82,12 +85,13 @@ function validate() {
         }
 
         if( discountPrice <= cost){
+            console.log(2)
 
-            validateWarn(priceEl, validationDiscMoreThenCostEl);
+            validateWarn(discountPriceEl, validationDiscMoreThenCostEl);
             return;
         }else{
             
-            validateOk(priceEl, validationDiscMoreThenCostEl);
+            validateOk(discountPriceEl, validationDiscMoreThenCostEl);
         }
 
     }
