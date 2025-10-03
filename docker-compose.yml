@@ -39,12 +39,11 @@ services:
     build:
       context: .
       dockerfile: _docker/app/DockerFile
-    depends_on:
-      - db
+    working_dir: /var/www
     volumes:
       - ./:/var/www
-    working_dir: /var/www
-    command: >
-      bash -lc "php artisan queue:work --queue=default
-                --sleep=0 --tries=3 --timeout=90"
+    depends_on:
+      - db
+      - app
     restart: unless-stopped
+    command: sh -lc "php artisan migrate --force || true && php artisan queue:work database --sleep=0 --tries=3 --max-time=3600"

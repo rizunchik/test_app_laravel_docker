@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -17,3 +18,9 @@ Route::delete('/products/{product}', [ProductController::class, 'destroy'])->nam
 
 
 
+Route::get('/telescope-test', function () {
+    \Illuminate\Support\Facades\Log::error('telescope test log');
+    \Illuminate\Support\Facades\DB::select('select 1');
+    \App\Jobs\DemoJob::dispatch();         // Jobs
+    return 'ok';
+});

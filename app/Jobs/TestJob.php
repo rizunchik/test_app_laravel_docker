@@ -4,9 +4,8 @@ namespace App\Jobs;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Support\Facades\Log;
 
-class DemoJob implements ShouldQueue
+class TestJob implements ShouldQueue
 {
     use Queueable;
 
@@ -23,8 +22,6 @@ class DemoJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Log::info('DemoJob started1 '. now());
-        usleep(5); 
-        Log::info('DemoJob finished1 '. now());
+        //
     }
 }

@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\UploadProductImage;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 
 class ProductController extends Controller
 {
     public function index(){
+
 
         $products = Product::all();
 
@@ -19,7 +23,9 @@ class ProductController extends Controller
         return view('product.create');
     }
 
-    public function store(){
+    public function store(Request $request){
+
+        \App\Jobs\DemoJob::dispatch();
 
         $data = request()->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -27,9 +33,31 @@ class ProductController extends Controller
             'price' => ['decimal:0,2', 'min:0'],
             'discount_price' => ['nullable', 'decimal:0,2', 'min:0'],
             'cost' => ['decimal:0,2', 'min:0'],
+            'images' => ['nullable','array'],
+            'images.*' => ['image','mimes:jpg,jpeg,png,webp','max:5120'],
         ]);
 
-        Product::create($data);
+        $product = Product::create($data);
+
+        if ($request->hasFile('images')) {
+            
+            foreach ($request->file('images') as $i => $file) {
+                // зберігаємо в local (НЕ public), щоб файл пережив життєвий цикл реквесту
+                $tmpPath = $file->storeAs(
+                    'tmp/products',
+                    \Illuminate\Support\Str::uuid().'.'.$file->getClientOriginalExtension(),
+                    'local'
+                );
+    
+                UploadProductImage::dispatch(
+                    productId:  $product->id,
+                    tmpPath:    $tmpPath,
+                    position:   $i,
+                    isPrimary:  $i === 0,  // перше — головне
+                    alt:        null,
+                )->onQueue('default');
+            }
+        }
 
         return redirect()->route('product.index');
         
