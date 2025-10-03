@@ -46,4 +46,5 @@ services:
       - db
       - app
     restart: unless-stopped
-    command: sh -lc "php artisan migrate --force || true && php artisan queue:work database --sleep=0 --tries=3 --max-time=3600"
+    command: sh -lc "php artisan queue:work database --sleep=0 --tries=3 --max-time=3600"
+    # command: sh -lc "php artisan migrate --force || true && php artisan queue:work database --sleep=0 --tries=3 --max-time=3600"

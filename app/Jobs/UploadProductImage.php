@@ -20,6 +20,7 @@ class UploadProductImage implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
+        public string $productName,
         public int $productId,
         public string $tmpPath,
         public int $position = 0,
@@ -38,9 +39,11 @@ class UploadProductImage implements ShouldQueue
 
         // генеруємо фінальне ім’я з оригінальним розширенням
         $ext = strtolower(pathinfo($this->tmpPath, PATHINFO_EXTENSION) ?: 'jpg');
-        $filename = Str::uuid().'.'.$ext;
+        $filename = $this->productId.'_'.$this->position.'_'.Str::uuid().'.'.$ext;
 
         Log::info($filename);
+        Log::info($ext);
+        Log::info($this->productId.'_'.$this->position.'.'.$ext);
 
         $originalRel = "products/original/{$filename}";
         Storage::disk('public')->put($originalRel, Storage::disk('local')->get($this->tmpPath));

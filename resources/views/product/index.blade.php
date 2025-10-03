@@ -21,7 +21,15 @@
     <tbody class="table-group-divider">
         @foreach($products as $product)
             <tr>
-                <td>{{ $product->id }}</td>
+                <td>
+
+                  <img
+                    src="{{ $product->primaryImage?->url('small')
+                          ?? $product->images->first()?->url('small')
+                          ?? asset('images/no-image.webp') }}"
+                    class="img-thumbnail" width="50" height="50">
+
+                </td>
                 <td><a href="{{ route('product.show', $product->id)}}">{{ $product->name }}</td>
                 <td>{{ $product->price }}</td>
                 <td>{{ $product->cost }}</td>
