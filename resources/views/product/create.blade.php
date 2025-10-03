@@ -3,12 +3,13 @@
 
 
 @section('h2_block')
-    <h1 class="h2">Product</h1>
+    <h1 class="h2">Товари</h1>
 @endsection
 
 @section('content')
 
-<form>
+<form action="{{ route('product.store') }}" method="POST">
+    @csrf
     <div class="card shadow-sm mb-4">
         <div class="card-body">
             <div class="mb-3">
@@ -33,8 +34,8 @@
         </div>
 
         <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="switchCheckChecked" checked>
-            <label class="form-check-label" for="switchCheckChecked">Знижка</label>
+            <input class="form-check-input" type="checkbox" name="is_discount" id="is_discount" role="switch" id="switchCheckChecked" checked value="0">
+            <label class="form-check-label" for="is_discount">Знижка</label>
         </div>
 
         <label for="price" class="form-label">Ціна зі знижкою</label>
@@ -48,20 +49,24 @@
                 <label for="price" class="form-label">Собівартість</label>
                 <div class="input-group">
                     <span class="input-group-text">₴</span>
-                <input type="text" class="form-control" placeholder="First name">
+                <input type="text" class="form-control">
                 </div>
                 
             </div>
             <div class="col input-group">
                 <label for="price" class="form-label">Прибуток</label>
-                <div class="input-group"></div>
-                <span class="input-group-text">₴</span>
-                <input type="text" class="form-control" placeholder="Last name">
+                <div class="input-group">
+                    <span class="input-group-text">₴</span>
+                <input type="text" class="form-control">
+                </div>
+                
             </div>
             <div class="col input-group">
                 <label for="price" class="form-label">Маржа</label>
-                <span class="input-group-text">₴</span>
-                <input type="text" class="form-control" placeholder="Last name">
+                <div class="input-group">
+                    <span class="input-group-text">₴</span>
+                    <input type="text" class="form-control">
+                </div>
             </div>
         </div>
     
@@ -69,7 +74,7 @@
   </div>
 
   <div class="col-12">
-    <button class="btn btn-primary" type="submit">Submit form</button>
+    <button class="btn btn-primary" type="submit">Зберегти</button>
 </div>
 
 </form>
