@@ -13,6 +13,8 @@
             <th scope="col">Назва</th>
             <th scope="col">Ціна</th>
             <th scope="col">Собівартість</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
           </tr>
     </thead>
     <tbody class="table-group-divider">
@@ -22,6 +24,9 @@
                 <td><a href="{{ route('product.show', $product->id)}}">{{ $product->name }}</td>
                 <td>{{ $product->price }}</td>
                 <td>{{ $product->cost }}</td>
+                <td>{{ $product->cost }}</td>
+                <td><a href="{{ route('product.edit', $product->id) }}"><i class="bi bi-pencil-square"></i></a></td>
+                <td><i class="bi bi-trash-fill text-danger"></i></td>
             </tr>
         @endforeach
 
