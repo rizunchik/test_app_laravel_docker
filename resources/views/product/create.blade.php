@@ -23,6 +23,17 @@
         </div>
     </div>
 
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <p>Зображення</p>
+            <div class="mb-3">
+                <label for="formFileMultiple" class="form-label">Ви можете завантажити зображення до 10Mb</label>
+                <input class="form-control" type="file" id="formFileMultiple" multiple>
+            </div>
+        </div>
+    </div>
+
   
   <div class="card shadow-sm mb-4">
     <div class="card-body">
