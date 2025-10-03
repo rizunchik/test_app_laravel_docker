@@ -5,7 +5,7 @@ services:
       - ./:/var/www
       - ./_docker/nginx/conf.d/:/etc/nginx/conf.d
     ports:
-     - "8076:80"
+     - "8080:80"
     depends_on:
       - app
   app:
@@ -22,7 +22,7 @@ services:
     volumes:
       - ./tmp/db:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: lar_dock_test
+      MYSQL_DATABASE: test_app_laravel_docker
       MYSQL_ROOT_PASSWORD: root
     ports:
       - 3306:3306 
