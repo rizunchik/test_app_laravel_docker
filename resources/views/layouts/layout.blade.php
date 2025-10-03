@@ -11,7 +11,6 @@
 </head>
 <body>
     
-
 <div class="container-fluid">
     <div class="row">
         <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar-hidden">
@@ -20,31 +19,19 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="#">
                             <i class="bi bi-house-door me-2"></i>
-                            Dashboard
+                            Дашборд
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <i class="bi bi-file-earmark me-2"></i>
-                            Orders
+                            Замовлення
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('product.index') }}">
                             <i class="bi bi-cart me-2"></i>
-                            Products
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-people me-2"></i>
-                            Customers
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-graph-up me-2"></i>
-                            Reports
+                            Товари
                         </a>
                     </li>
                 </ul>
@@ -63,6 +50,8 @@
         </main>
     </div>
 </div>
+
+@stack('scripts')
 
 </body>
 </html>

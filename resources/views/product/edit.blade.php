@@ -29,7 +29,10 @@
         <div class="card-body">
             <div class="mb-3">
                 <label for="name" class="form-label">Назва</label>
-                <input type="text" class="form-control" name="name" id="name" placeholder="Назва" value="{{ $product->name }}">
+                <input type="text" class="form-control" name="name" aria-describedby="validationEmptyName" id="name" placeholder="Назва" value="{{ $product->name }}">
+                <div id="validationEmptyName" class="d-none">
+                    Заповніть назву.
+                </div>
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Опис</label>
@@ -48,11 +51,11 @@
 
 <div class="card p-3 mb-4">
     <div class="card-body">
-  <h6 class="mb-3">Зображення</h6>
-
+  <p class="mb-3">Зображення</p>
+  @if (count($images) > 0)
   <div class="d-flex align-items-start gap-3">
+    
 
-    {{-- Велике «головне» фото --}}
     <div class="ratio ratio-1x1" style="width:220px;">
       @if ($cover)
         <img src="{{ $cover->url('large') }}" class="rounded w-100 h-100" style="object-fit:cover" alt="">
@@ -89,6 +92,7 @@
     </div>
     
   </div>
+  @endif
     <div class="mb-3">
         <label for="formFileMultiple" class="form-label">Ви можете завантажити зображення до 10Mb</label>
         <input class="form-control" type="file" name="images[]" id="formFileMultiple" accept="image/png,image/jpeg,image/webp" multiple>
@@ -105,7 +109,18 @@
         <label for="price" class="form-label">Ціна</label>
         <div class="input-group mb-3">
             <span class="input-group-text">₴</span>
-            <input type="text" name="price" id="price" class="form-control" value="{{ $product->price }}">
+            <input type="text" name="price" id="price" class="form-control" 
+                aria-describedby="validationPriceMoreThenZero validationPriceMoreThenDiscountPrice validationPriceMoreThenCost" 
+                value="{{ $product->price }}">
+            <div id="validationPriceMoreThenZero" class="d-none">
+                Ціна повинна бути більше 0.
+            </div>
+            <div id="validationPriceMoreThenDiscountPrice" class="d-none">
+                Ціна повинна бути більша ніж ціна зі знижкою.
+            </div>
+            <div id="validationPriceMoreThenCost" class="d-none">
+                Ціна повинна бути більша ніж ціна собівартості.
+            </div>
         </div>
 
         <div class="form-check form-switch">
@@ -116,7 +131,10 @@
         <label for="price" class="form-label">Ціна зі знижкою</label>
         <div class="input-group mb-3">
             <span class="input-group-text">₴</span>
-            <input type="text" name="discount_price" id="discount_price" class="form-control" value="{{ $product->discount_price }}">
+            <input type="text" name="discount_price" id="discount_price" class="form-control" aria-describedby="validationDiscMoreThenCost" value="{{ $product->discount_price }}">
+            <div id="validationDiscMoreThenCost" class="d-none">
+                Ціна зі знижкою повинна бути більша ніж ціна собівартості.
+            </div>
         </div>
 
         <div class="row">
@@ -124,23 +142,26 @@
                 <label for="cost" class="form-label">Собівартість</label>
                 <div class="input-group">
                     <span class="input-group-text">₴</span>
-                    <input type="text" name="cost" id="cost" class="form-control" value="{{ $product->cost }}">
+                    <input type="text" name="cost" id="cost" class="form-control" aria-describedby="validationCostMoreThenZero" value="{{ $product->cost }}">
+                    <div id="validationCostMoreThenZero" class="d-none">
+                        Собівартість повинна бути більше 0.
+                    </div>
                 </div>
                 
             </div>
             <div class="col input-group">
-                <label for="price" class="form-label">Прибуток</label>
+                <label for="profit" class="form-label">Прибуток</label>
                 <div class="input-group">
                     <span class="input-group-text">₴</span>
-                <input type="text" class="form-control">
+                    <input type="text" name="profit" id="profit" class="form-control" disabled>
                 </div>
                 
             </div>
             <div class="col input-group">
-                <label for="price" class="form-label">Маржа</label>
+                <label for="margin" class="form-label">Маржа</label>
                 <div class="input-group">
-                    <span class="input-group-text">₴</span>
-                    <input type="text" class="form-control">
+                    <span class="input-group-text" bg-secondary>%</span>
+                    <input type="text" name="margin" id="margin" class="form-control" disabled>
                 </div>
             </div>
         </div>
@@ -148,11 +169,44 @@
     </div>
   </div>
 
-  <div class="col-12">
-    <button class="btn btn-primary" type="submit">Оновити</button>
-</div>
+  <div class="row justify-content-evenly mb-5">
+    <div class="col-4">
+        <button class="btn btn-primary" id="save" type="submit">Оновити</button>
+    </div>
+    <div class="col-4">
+        <button type="button" class="btn btn-danger" data-bs-product-id="{{ $product->id }}" data-bs-product-name="{{ $product->name }}" data-bs-toggle="modal" data-bs-target="#modal_delete">
+            Видалити товар
+        </button>
+    </div>
+  </div>
+
+    
 
 </form>
+
+
+
+<div class="modal fade" id="modal_delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Видалення</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Ви впевнені, що хочете видалити товар?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Скасувати</button>
+            <form action="" method="POST">
+                @csrf
+                @method('delete')
+                <button type="submit" class="btn btn-danger">Видалити</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
 <script src="https://cdn.tiny.cloud/1/dokpt4hqr4uy2ym94l9ddaxrap7t336r9nlzsitc5eni3t4q/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
 <script>
     tinymce.init({
@@ -176,35 +230,11 @@
     });
   </script>
 
-<script>
-    document.addEventListener('click', function (e) {
-      const btn = e.target.closest('.js-del');
-    //   if (!btn) return;
-    
-    //   const tile = btn.closest('[data-id]');
-    //   const id = tile?.dataset?.id || btn.dataset.id; // для головного фото
-      const id = btn.getAttribute('data-image-id'); 
-      console.log(id);
-    //   if (!id) return;
-
-      const closestParent = btn.closest('.ratio');
-      closestParent.remove();
-
-
-      const holder = document.getElementById('delete-inputs');
-      const existing = holder.querySelector(`input[name="delete_images[]"][value="${id}"]`);
-      if (existing) {
-        existing.remove();
-      } else {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'delete_images[]';
-        input.value = id;
-        holder.appendChild(input);
-      }
-    });
-    </script>
-    
+@push('scripts')
+  @vite('resources/js/delete_image.js')
+  @vite('resources/js/margin_profit_calculation.js')
+  @vite('resources/js/validation.js')
+@endpush
 
 @endsection
 

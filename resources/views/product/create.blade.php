@@ -28,7 +28,10 @@
         <div class="card-body">
             <div class="mb-3">
                 <label for="name" class="form-label">Назва</label>
-                <input type="text" class="form-control" name="name" id="name" placeholder="Назва">
+                <input type="text" class="form-control" name="name" aria-describedby="validationEmptyName" id="name" placeholder="Назва">
+                <div id="validationEmptyName" class="d-none">
+                    Заповніть назву.
+                </div>
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Опис</label>
@@ -55,7 +58,16 @@
         <label for="price" class="form-label">Ціна</label>
         <div class="input-group mb-3">
             <span class="input-group-text">₴</span>
-            <input type="text" name="price" id="price" class="form-control">
+            <input type="text" name="price" id="price" class="form-control" aria-describedby="validationPriceMoreThenZero validationPriceMoreThenDiscountPrice validationPriceMoreThenCost" >
+            <div id="validationPriceMoreThenZero" class="d-none">
+                Ціна повинна бути більше 0.
+            </div>
+            <div id="validationPriceMoreThenDiscountPrice" class="d-none">
+                Ціна повинна бути більша ніж ціна зі знижкою.
+            </div>
+            <div id="validationPriceMoreThenCost" class="d-none">
+                Ціна повинна бути більша ніж ціна собівартості.
+            </div>
         </div>
 
         <div class="form-check form-switch">
@@ -66,7 +78,10 @@
         <label for="price" class="form-label">Ціна зі знижкою</label>
         <div class="input-group mb-3">
             <span class="input-group-text">₴</span>
-            <input type="text" name="discount_price" id="discount_price" class="form-control" >
+            <input type="text" name="discount_price" id="discount_price" class="form-control" aria-describedby="validationDiscMoreThenCost">
+            <div id="validationDiscMoreThenCost" class="d-none">
+                Ціна зі знижкою повинна бути більша ніж ціна собівартості.
+            </div>
         </div>
 
         <div class="row">
@@ -75,6 +90,9 @@
                 <div class="input-group">
                     <span class="input-group-text">₴</span>
                     <input type="text" name="cost" id="cost" class="form-control">
+                    <div id="validationCostMoreThenZero" class="d-none"  aria-describedby="validationCostMoreThenZero">
+                        Собівартість повинна бути більше 0.
+                    </div>
                 </div>
                 
             </div>
@@ -99,7 +117,7 @@
   </div>
 
   <div class="col-12">
-    <button class="btn btn-primary" type="submit">Зберегти</button>
+    <button class="btn btn-primary" id="save"  type="submit">Зберегти</button>
 </div>
 
 </form>
@@ -125,6 +143,11 @@
       uploadcare_public_key: '095956eebcc4fa01f730',
     });
   </script>
+
+@push('scripts')
+  @vite('resources/js/margin_profit_calculation.js')
+  @vite('resources/js/validation.js')
+@endpush
 
 @endsection
 

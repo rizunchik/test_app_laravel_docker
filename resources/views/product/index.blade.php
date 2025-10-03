@@ -33,7 +33,6 @@
                 <td><a href="{{ route('product.show', $product->id)}}">{{ $product->name }}</td>
                 <td>{{ $product->price }}</td>
                 <td>{{ $product->cost }}</td>
-                <td>{{ $product->cost }}</td>
                 <td><a href="{{ route('product.edit', $product->id) }}"><i class="bi bi-pencil-square"></i></a></td>
                 <td><i class="bi bi-trash-fill text-danger" data-bs-product-id="{{ $product->id }}" data-bs-product-name="{{ $product->name }}" data-bs-toggle="modal" data-bs-target="#modal_delete"></i></td>
             </tr>
@@ -65,22 +64,5 @@
     </div>
   </div>
 
-<script>
-    var modelDelete = document.getElementById('modal_delete');
-    modelDelete.addEventListener('show.bs.modal', function (event) {
-
-        var button = event.relatedTarget;
-
-        var product_id = button.getAttribute('data-bs-product-id');
-        var product_name = button.getAttribute('data-bs-product-name');
-
-
-        var modalHeaderH5 = modelDelete.querySelector('.modal-header h5');
-        var modalFormDelete = modelDelete.querySelector('.modal-footer form');
-
-        modalHeaderH5.textContent = 'Видалення товару ' + product_name;
-        modalFormDelete.action = `products/${product_id}`;
-    });
-</script>
 
 @endsection
