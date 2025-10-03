@@ -38,8 +38,7 @@
         </div>
     </div>
 
-    @php
-  // впевнись, що в контролері: Product::with(['primaryImage','images'])->find($id)
+@php
   $images  = $product->images->sortBy('position')->values();
   $cover   = $product->primaryImage ?? $images->first();
   $thumbs  = $images->filter(fn($i) => $cover?->id !== $i->id)->values();
