@@ -94,19 +94,16 @@ class ProductController extends Controller
             'price' => ['decimal:0,2', 'min:0'],
             'discount_price' => ['nullable', 'decimal:0,2', 'min:0'],
             'cost' => ['decimal:0,2', 'min:0'],
-
             'images'         => ['nullable','array'],
             'images.*'       => ['image','mimes:jpg,jpeg,png,webp','max:10240'],
 
-            'delete_images'  => ['nullable','array'],
-            'delete_images.*'=> ['integer'],
         ]);
 
         $data = Arr::except($validated, ['images','delete_images']);
 
         $product->update($data);
 
-        $deleteImagesIds = $validated['delete_images'];
+        $deleteImagesIds = ($validated['delete_images']  ?? []);
 
         if ($deleteImagesIds) {
 

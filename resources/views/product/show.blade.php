@@ -77,9 +77,18 @@ $rest    = max(0, $thumbs->count() - $limit);
 
 {!! $product->description !!}
 
-<button type="button" class="btn btn-danger" data-bs-product-id="{{ $product->id }}" data-bs-product-name="{{ $product->name }}" data-bs-toggle="modal" data-bs-target="#modal_delete">
-    Видалити товар
-</button>
+<div class="row justify-content-evenly mb-5">
+  <div class="col-4">
+      <a href="{{ route('product.edit', $product->id) }}"><button type="button" class="btn btn-primary" id="save">Редагувати</button></a>
+  </div>
+  <div class="col-4">
+    <button type="button" class="btn btn-danger" data-bs-product-id="{{ $product->id }}" data-bs-product-name="{{ $product->name }}" data-bs-toggle="modal" data-bs-target="#modal_delete">
+      Видалити товар
+  </button>
+  </div>
+</div>
+
+
 
 <div class="modal fade" id="modal_delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
