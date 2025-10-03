@@ -6,7 +6,6 @@
 @endsection
 @section('content')
 
-
-    {{  $product->description }}
+    {!! $product->description !!}
     
 @endsection

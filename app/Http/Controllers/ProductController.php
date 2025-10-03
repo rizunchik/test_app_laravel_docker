@@ -62,10 +62,6 @@ class ProductController extends Controller
         return view('product.show', compact('product'));
     }
 
-    public function delete(){
-
-    }
-
     public function destroy(Product $product){
 
         $product->delete();

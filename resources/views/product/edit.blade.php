@@ -19,7 +19,7 @@
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Опис</label>
-                <textarea class="form-control" name="description" id="description" rows="3">{{ $product->description}}</textarea>
+                <textarea class="form-control" name="description" id="description" rows="3">{!! old('description', $product->description ?? '') !!}</textarea>
             </div>
         </div>
     </div>

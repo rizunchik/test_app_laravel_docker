@@ -2,11 +2,12 @@
 @extends('layouts.layout')
 
 @section('h2_block')
-    <h1 class="h2">Product</h1>
+    <h1 class="h2">Товари</h1>
+    <a class="btn btn-primary" href="{{ route('product.create') }}" role="button">Додати товар</a>
 @endsection
 @section('content')
 
-  <table class="table table-bordered">
+  <table class="table">
     <thead>
         <tr>
             <th scope="col">#</th>

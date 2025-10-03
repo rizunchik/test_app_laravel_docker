@@ -14,8 +14,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <!-- Sidebar -->
-        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar-hidden">
             <div class="position-sticky pt-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
@@ -52,14 +51,13 @@
             </div>
         </nav>
 
-        <!-- Main content -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div
                 class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 @yield('h2_block')
                 <button id="sidebarToggle" class="btn btn-primary d-md-none">
-                        <i class="bi bi-list"></i> Toggle Sidebar
-                    </button>
+                    <i class="bi bi-list"></i> Меню
+                </button>
             </div>
             @yield('content')
         </main>
