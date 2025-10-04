@@ -1,3 +1,46 @@
+Installation
+
+1. Clone the repository
+
+git clone git@github.com:rizunchik/test_app_laravel_docker.git
+
+2. Run docker
+
+docker compose up -d
+
+3. Check or change:
+
+    - file .env
+
+        DB_DATABASE
+
+    - file docker-compose.yml
+
+        MYSQL_DATABASE
+
+    The values ​​must be the same. If a database with that name already exists, change the name.
+
+    - file docker-compose.yml
+
+        nginx:
+            ports:
+            - "8080:80"
+
+        If port 8080 is busy, change it.
+
+4. Run migrations
+
+docker compose exec app php artisan migrate
+
+5. Open browser
+
+    http://localhost:8080/ or http://localhost:your_port/
+
+
+
+<hr>
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
