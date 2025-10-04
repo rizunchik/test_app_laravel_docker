@@ -31,6 +31,7 @@ class ProductController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'price' => ['decimal:0,2', 'min:0'],
+            'is_discount' => ['required','boolean'],
             'discount_price' => ['nullable', 'decimal:0,2', 'min:0'],
             'cost' => ['decimal:0,2', 'min:0'],
             'images' => ['nullable','array'],
@@ -38,6 +39,13 @@ class ProductController extends Controller
         ]);
 
         $data = Arr::except($validated, ['images']);
+
+        Log::info('discount debug', [
+            'raw'     => $request->input('is_discount'),      // '0' / '1' / null
+            'boolean' => $request->boolean('is_discount'),    // true / false
+            'has'     => $request->has('is_discount'),        // лише наявність ключа (обманка!)
+            'filled'  => $request->filled('is_discount'),     // true якщо непорожнє і не '0'
+          ]);
 
         $product = Product::create($data);
 
@@ -81,8 +89,9 @@ class ProductController extends Controller
 
         $validated = request()->validate([
             'name' => ['required', 'string', 'max:255'],
-            'description' => 'string',
+            'description' => ['nullable', 'string'],
             'price' => ['decimal:0,2', 'min:0'],
+            'is_discount' => ['required','boolean'],
             'discount_price' => ['nullable', 'decimal:0,2', 'min:0'],
             'cost' => ['decimal:0,2', 'min:0'],
             'images'         => ['nullable','array'],
@@ -93,7 +102,10 @@ class ProductController extends Controller
 
         ]);
 
+        
+
         $data = Arr::except($validated, ['images','delete_images']);
+        
 
         $product->update($data);
 

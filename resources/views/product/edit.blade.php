@@ -124,13 +124,13 @@
 
         <div class="form-check form-switch">
             @php
-                if ($product->is_discount){
+                if ($product->is_discount == 1){
                     $checked = 'checked';
                 }else{
                     $checked = '';
                 }
             @endphp
-            <input class="form-check-input" type="checkbox" name="is_discount" id="is_discount" role="switch" id="switchCheckChecked" {{ $checked }} value="{{ $product->is_discount }}">
+            <input class="form-check-input" type="checkbox" name="is_discount" id="is_discount" role="switch" {{ $checked }} value="{{ $product->is_discount }}">
             <label class="form-check-label" for="is_discount">Знижка</label>
         </div>
 
