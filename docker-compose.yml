@@ -31,7 +31,7 @@ services:
     volumes:
       - ./tmp/db:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE:?Set MYSQL_DATABASE in .env}
+      MYSQL_DATABASE: ${DB_DATABASE:?Set DB_DATABASE in .env}
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Set DB_ROOT_PASSWORD in .env}
       MYSQL_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
     ports:
