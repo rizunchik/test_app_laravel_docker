@@ -41,10 +41,10 @@ class ProductController extends Controller
         $data = Arr::except($validated, ['images']);
 
         Log::info('discount debug', [
-            'raw'     => $request->input('is_discount'),      // '0' / '1' / null
-            'boolean' => $request->boolean('is_discount'),    // true / false
-            'has'     => $request->has('is_discount'),        // лише наявність ключа (обманка!)
-            'filled'  => $request->filled('is_discount'),     // true якщо непорожнє і не '0'
+            'raw'     => $request->input('is_discount'),      
+            'boolean' => $request->boolean('is_discount'),    
+            'has'     => $request->has('is_discount'),       
+            'filled'  => $request->filled('is_discount'),    
           ]);
 
         $product = Product::create($data);
