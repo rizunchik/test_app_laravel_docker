@@ -130,7 +130,13 @@
                     $checked = '';
                 }
             @endphp
-            <input class="form-check-input" type="checkbox" name="is_discount" id="is_discount" role="switch" {{ $checked }} value="{{ $product->is_discount }}">
+            <input type="hidden" name="is_discount" value="0">
+            <input class="form-check-input"
+                type="checkbox"
+                id="is_discount"
+                name="is_discount"
+                value="1"
+                @checked((bool) old('is_discount', $product->is_discount))>
             <label class="form-check-label" for="is_discount">Знижка</label>
         </div>
 
