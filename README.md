@@ -10,13 +10,12 @@ git clone git@github.com:rizunchik/test_app_laravel_docker.git
 
     cp .env.example .env
 
-
-WARNING!!! If you go straight to step 5, standard passwords will be used.
-
 4. Set password in .env
 
     DB_PASSWORD, 
     DB_ROOT_PASSWORD
+
+WARNING!!! If you go straight to step 5, standard passwords will be used.
 
 5. Check or change:
 
