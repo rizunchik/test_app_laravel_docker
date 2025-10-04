@@ -30,18 +30,13 @@ class UploadProductImage implements ShouldQueue
      */
     public function handle(): void
     {
-        Log::info('UploadProductImage 1'. now());
+
         if (!Storage::disk('local')->exists($this->tmpPath)) {
             return; 
         }
 
-        // генеруємо фінальне ім’я з оригінальним розширенням
         $ext = strtolower(pathinfo($this->tmpPath, PATHINFO_EXTENSION) ?: 'jpg');
         $filename = $this->productId.'_'.$this->position.'_'.Str::uuid().'.'.$ext;
-
-        Log::info($filename);
-        Log::info($ext);
-        Log::info($this->productId.'_'.$this->position.'.'.$ext);
 
         $originalRel = "products/original/{$filename}";
         Storage::disk('public')->put($originalRel, Storage::disk('local')->get($this->tmpPath));
@@ -61,7 +56,6 @@ class UploadProductImage implements ShouldQueue
             Storage::disk('public')->put("products/{$folder}/{$filename}", (string) $img);
         }
 
-        // 3) Заносимо в БД один запис — зберігаємо саме basename (файл)
         ProductImage::create([
             'product_id' => $this->productId,
             'path'       => $filename,
@@ -69,7 +63,6 @@ class UploadProductImage implements ShouldQueue
             'is_primary' => $this->isPrimary,
         ]);
 
-        // 4) Прибираємо тимчасовий файл
         Storage::disk('local')->delete($this->tmpPath);
     }
 }

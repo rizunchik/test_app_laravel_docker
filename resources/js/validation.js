@@ -11,7 +11,6 @@ function num(el){
 }
 
 function validateWarn(inputEl, feedbackEl ){
-    console.log('dfdfd');
     inputEl.classList.add('is-invalid');
     feedbackEl.classList.add('invalid-feedback');
     feedbackEl.classList.remove('d-none');
@@ -72,10 +71,7 @@ function validate() {
 
     if (isDiscountEl.checked) {
 
-
-
         if( price <= discountPrice){
-            console.log(1)
             
             validateWarn(priceEl, validationPriceMoreThenDiscountPriceEl);
             return;
@@ -85,7 +81,6 @@ function validate() {
         }
 
         if( discountPrice <= cost){
-            console.log(2)
 
             validateWarn(discountPriceEl, validationDiscMoreThenCostEl);
             return;

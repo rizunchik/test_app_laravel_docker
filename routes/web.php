@@ -7,11 +7,8 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', [ProductController::class, 'index'])->name('product.index');
 
-// Route::get('/phpinfo', function () {
-//     return view('phpinfo');
-// });
+Route::get('/', [ProductController::class, 'index'])->name('product.index');
 
 Route::get('/products/', [ProductController::class, 'index'])->name('product.index');
 Route::get('/products/create', [ProductController::class, 'create'])->name('product.create');
@@ -21,11 +18,7 @@ Route::get('/products/edit/{product}', [ProductController::class, 'edit'])->name
 Route::patch('/products/{product}', [ProductController::class, 'update'])->name('product.update');
 Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('product.delete');
 
+// Route::get('/phpinfo', function () {
+//     return view('phpinfo');
+// });
 
-
-Route::get('/telescope-test', function () {
-    \Illuminate\Support\Facades\Log::error('telescope test log');
-    \Illuminate\Support\Facades\DB::select('select 1');
-    \App\Jobs\DemoJob::dispatch();         // Jobs
-    return 'ok';
-});

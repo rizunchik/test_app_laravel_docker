@@ -27,9 +27,6 @@ class ProductController extends Controller
 
     public function store(Request $request){
 
-        // Log::info('store '. now());
-        // Log::info(request());
-
         $validated = request()->validate([
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
@@ -40,20 +37,14 @@ class ProductController extends Controller
             'images.*' => ['image','mimes:jpg,jpeg,png,webp','max:10240'],
         ]);
 
-        // Log::info('store 1'. now());
-
         $data = Arr::except($validated, ['images']);
 
         $product = Product::create($data);
 
-        // Log::info('product create '. now());
-
         if ($request->hasFile('images')) {
-
-            // Log::info('store 2'. now());
             
             foreach ($request->file('images') as $i => $file) {
-                // зберігаємо в local (НЕ public), щоб файл пережив життєвий цикл реквесту
+                
                 $tmpPath = $file->storeAs(
                     'tmp/products',
                     \Illuminate\Support\Str::uuid().'.'.$file->getClientOriginalExtension(),
@@ -115,11 +106,9 @@ class ProductController extends Controller
         }
 
         if ($request->hasFile('images')) {
-
-            // Log::info('store 2'. now());
             
             foreach ($request->file('images') as $i => $file) {
-                // зберігаємо в local (НЕ public), щоб файл пережив життєвий цикл реквесту
+                
                 $tmpPath = $file->storeAs(
                     'tmp/products',
                     \Illuminate\Support\Str::uuid().'.'.$file->getClientOriginalExtension(),
