@@ -52,7 +52,7 @@ validator
                 if (!document.querySelector('#is_discount').checked) return true;
                 return toNum(value) > 0;
             },
-            errorMessage: 'Discount price має бути більше 0 (коли знижка ввімкнена)',
+            errorMessage: 'Ціна зі знижкою має бути більше 0, якщо знижка ввімкнена.',
         },
         {
             validator: (value, fields) => {
