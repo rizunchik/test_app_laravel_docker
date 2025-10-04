@@ -13,6 +13,8 @@ php -r "
         if (!preg_match(\"/^APP_KEY=\\S+/m\", \$e)) { exit(1); }
       " || php artisan key:generate --force
 
+php artisan config:clear
+
 echo "Waiting for database..."
 until php artisan migrate --force; do
   echo "Retrying migrations in 5s..."
