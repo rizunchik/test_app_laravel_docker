@@ -116,7 +116,7 @@
     </div>
   </div>
 
-  <div class="col-12">
+  <div class="col-12 mb-4">
     <button class="btn btn-primary" id="save"  type="submit">Зберегти</button>
 </div>
 
