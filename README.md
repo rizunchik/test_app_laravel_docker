@@ -24,9 +24,15 @@ docker compose up -d
 
         nginx:
             ports:
-            - "8080:80"
+            - 8080:80
+        db:
+            ports:
+            - 3306:3306
+        node:
+            ports: 
+            - 5173:5173
 
-        If port 8080 is busy, change it.
+        If ports are busy, change it before ":".
 
 4. Run migrations
 
