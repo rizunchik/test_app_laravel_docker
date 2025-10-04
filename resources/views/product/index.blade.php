@@ -6,8 +6,8 @@
     <a class="btn btn-primary" href="{{ route('product.create') }}" role="button">Додати товар</a>
 @endsection
 @section('content')
-
-  <table class="table">
+<div class="border rounded-3 overflow-hidden mb-4">
+  <table class="table mb-0">
     <thead>
         <tr>
             <th scope="col">#</th>
@@ -40,6 +40,8 @@
 
     </tbody>
   </table>
+</div>
+
 
   <!-- Modal -->
   <div class="modal fade" id="modal_delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

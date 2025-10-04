@@ -17,7 +17,7 @@
             <div class="position-sticky pt-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">
+                        <a class="nav-link" href="#">
                             <i class="bi bi-house-door me-2"></i>
                             Дашборд
                         </a>
@@ -29,7 +29,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('product.index') }}">
+                        <a class="nav-link active" href="{{ route('product.index') }}">
                             <i class="bi bi-cart me-2"></i>
                             Товари
                         </a>
