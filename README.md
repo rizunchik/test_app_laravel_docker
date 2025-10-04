@@ -6,8 +6,6 @@ git clone git@github.com:rizunchik/test_app_laravel_docker.git
 
 2. cd test_app_laravel_docker
 
-WARNING!!! If you go straight to step 5, standard passwords will be used.
-
 3. Create .env
 
     cp .env.example .env
