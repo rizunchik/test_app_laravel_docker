@@ -71,7 +71,7 @@
         </div>
 
         <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" name="is_discount" id="is_discount" role="switch" id="switchCheckChecked" checked value="0">
+            <input class="form-check-input" type="checkbox" name="is_discount" id="is_discount" role="switch" id="switchCheckChecked" value="0">
             <label class="form-check-label" for="is_discount">Знижка</label>
         </div>
 
@@ -100,15 +100,15 @@
                 <label for="profit" class="form-label">Прибуток</label>
                 <div class="input-group">
                     <span class="input-group-text">₴</span>
-                    <input type="text" ame="profit" id="profit" class="form-control">
+                    <input type="text" name="profit" id="profit" class="form-control" disabled>
                 </div>
                 
             </div>
             <div class="col input-group">
-                <label for="marga" class="form-label">Маржа</label>
+                <label for="margin" class="form-label">Маржа</label>
                 <div class="input-group">
-                    <span class="input-group-text">₴</span>
-                    <input type="text" ame="marga" id="marga" class="form-control">
+                    <span class="input-group-text" bg-secondary>%</span>
+                    <input type="text" name="margin" id="margin" class="form-control" disabled>
                 </div>
             </div>
         </div>

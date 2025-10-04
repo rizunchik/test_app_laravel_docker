@@ -3,6 +3,7 @@ document.addEventListener('click', function (e) {
     const deleteInputsEl = document.getElementById('delete-inputs');
     const input = document.createElement('input');
     input.type = 'hidden';
+    input.value = 0;
     input.name = 'delete_images[]';
     if (!btn) {
       deleteInputsEl.appendChild(input);

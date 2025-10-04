@@ -42,26 +42,35 @@
     </div>
 
 @php
-  $images  = $product->images->sortBy('position')->values();
-  $cover   = $product->primaryImage ?? $images->first();
-  $thumbs  = $images->filter(fn($i) => $cover?->id !== $i->id)->values();
-  $limit   = 7;                                // скільки мініатюр показувати
-  $rest    = max(0, $thumbs->count() - $limit);
+  $allImages  = $product->images->sortBy('position')->values();
+  $primaryImage   = $product->primaryImage ?? $allImages->first();
+  $images  = $allImages->filter(fn($i) => $primaryImage?->id !== $i->id)->values();
+  $limit   = 7; 
+  $rest    = $images->count() - $limit;
+  $cc =  $images->count();
 @endphp
+
+{{-- @foreach ($images as $t)
+<p>
+    {{ $t->product_id }}
+</p>
+@endforeach
+
+<p>{{ $cc }}</p> --}}
 
 <div class="card p-3 mb-4">
     <div class="card-body">
   <p class="mb-3">Зображення</p>
-  @if (count($images) > 0)
+  @if (count($allImages) > 0)
   <div class="d-flex align-items-start gap-3">
     
 
     <div class="ratio ratio-1x1" style="width:220px;">
-      @if ($cover)
-        <img src="{{ $cover->url('large') }}" class="rounded w-100 h-100" style="object-fit:cover" alt="">
+      @if ($primaryImage)
+        <img src="{{ $primaryImage->url('large') }}" class="rounded w-100 h-100" style="object-fit:primaryImage" alt="">
         <button type="button"
                 class="js-del btn btn-light btn-sm p-1 position-absolute top-0 end-0 m-1 w-auto h-auto"
-                data-image-id="{{ $cover->id }}"
+                data-image-id="{{ $primaryImage->id }}"
                 aria-label="Видалити">
           <i class="bi bi-trash-fill text-danger"></i>
         </button>
@@ -70,7 +79,7 @@
 
     <div class="d-flex flex-wrap gap-3 flex-grow-1">
 
-      @foreach ($thumbs->take($limit) as $img)
+      @foreach ($images->take($limit) as $img)
       <div class="ratio ratio-1x1 shadow-sm rounded position-relative" style="width:100px;">
         <img src="{{ $img->url('small') }}" class="rounded w-100 h-100" style="object-fit:cover" alt="">
       
@@ -124,7 +133,14 @@
         </div>
 
         <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" name="is_discount" id="is_discount" role="switch" id="switchCheckChecked" checked value="{{ $product->is_discount }}">
+            @php
+                if ($product->is_discount){
+                    $checked = 'checked';
+                }else{
+                    $checked = '';
+                }
+            @endphp
+            <input class="form-check-input" type="checkbox" name="is_discount" id="is_discount" role="switch" id="switchCheckChecked" {{ $checked }} value="{{ $product->is_discount }}">
             <label class="form-check-label" for="is_discount">Знижка</label>
         </div>
 

@@ -88,6 +88,9 @@ class ProductController extends Controller
             'images'         => ['nullable','array'],
             'images.*'       => ['image','mimes:jpg,jpeg,png,webp','max:10240'],
 
+            'delete_images'  => ['nullable','array'],
+            'delete_images.*'=> ['integer'],
+
         ]);
 
         $data = Arr::except($validated, ['images','delete_images']);
