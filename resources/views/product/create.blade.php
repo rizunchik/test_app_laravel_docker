@@ -30,7 +30,7 @@
                 <label for="name" class="form-label">Назва</label>
                 <input type="text" class="form-control" name="name" aria-describedby="validationEmptyName" id="name" placeholder="Назва">
                 <div id="validationEmptyName" class="d-none">
-                    Заповніть назву.
+                    Назва має мати більше трьох символів.
                 </div>
             </div>
             <div class="mb-3">
@@ -58,7 +58,7 @@
         <label for="price" class="form-label">Ціна</label>
         <div class="input-group mb-3">
             <span class="input-group-text">₴</span>
-            <input type="text" name="price" id="price" class="form-control" aria-describedby="validationPriceMoreThenZero validationPriceMoreThenDiscountPrice validationPriceMoreThenCost" >
+            <input type="text" name="price" id="price" class="form-control" aria-describedby="validationPriceMoreThenZero validationPriceMoreThenDiscountPrice validationPriceMoreThenCost" value="0.00">
             <div id="validationPriceMoreThenZero" class="d-none">
                 Ціна повинна бути більше 0.
             </div>
@@ -78,7 +78,7 @@
         <label for="price" class="form-label">Ціна зі знижкою</label>
         <div class="input-group mb-3">
             <span class="input-group-text">₴</span>
-            <input type="text" name="discount_price" id="discount_price" class="form-control" aria-describedby="validationDiscMoreThenCost">
+            <input type="text" name="discount_price" id="discount_price" class="form-control" aria-describedby="validationDiscMoreThenCost" value="0.00">
             <div id="validationDiscMoreThenCost" class="d-none">
                 Ціна зі знижкою повинна бути більша ніж ціна собівартості.
             </div>
@@ -89,7 +89,7 @@
                 <label for="cost" class="form-label">Собівартість</label>
                 <div class="input-group">
                     <span class="input-group-text">₴</span>
-                    <input type="text" name="cost" id="cost" class="form-control">
+                    <input type="text" name="cost" id="cost" class="form-control" value="0.00">
                     <div id="validationCostMoreThenZero" class="d-none"  aria-describedby="validationCostMoreThenZero">
                         Собівартість повинна бути більше 0.
                     </div>
@@ -100,7 +100,7 @@
                 <label for="profit" class="form-label">Прибуток</label>
                 <div class="input-group">
                     <span class="input-group-text">₴</span>
-                    <input type="text" name="profit" id="profit" class="form-control" disabled>
+                    <input type="text" name="profit" id="profit" class="form-control" value="0.00" disabled>
                 </div>
                 
             </div>
@@ -108,7 +108,7 @@
                 <label for="margin" class="form-label">Маржа</label>
                 <div class="input-group">
                     <span class="input-group-text" bg-secondary>%</span>
-                    <input type="text" name="margin" id="margin" class="form-control" disabled>
+                    <input type="text" name="margin" id="margin" class="form-control" value="0.00" disabled>
                 </div>
             </div>
         </div>

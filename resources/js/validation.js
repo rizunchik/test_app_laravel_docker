@@ -21,11 +21,16 @@ function validateOk(inputEl, feedbackEl ){
     inputEl.classList.remove('is-invalid');
     feedbackEl.classList.remove('invalid-feedback');
     feedbackEl.classList.add('d-none');
-    saveEl.disabled = false;
+    offDisable();
     
 }
 
-function validate() {
+function offDisable(){
+    saveEl.disabled = false;
+}
+
+function validate(e) {
+    const el = e.target;
     let price = num(priceEl);
     let discountPrice = num(discountPriceEl);
     let cost  = num(costEl);
@@ -37,14 +42,14 @@ function validate() {
     var validationDiscMoreThenCostEl = document.getElementById('validationDiscMoreThenCost');
     var validationEmptyNameEl = document.getElementById('validationEmptyName');
 
-    if (nameEl.value.length == 0){
+    if (nameEl.value.length < 4 && (el === nameEl || el === saveEl)){
         validateWarn(nameEl, validationEmptyNameEl);
         return;
     }else{
         validateOk(nameEl, validationEmptyNameEl);
     }
 
-    if (price <= 0){
+    if (price <= 0  && (el === priceEl || el === saveEl)){
 
         validateWarn(priceEl, validationPriceMoreThenZeroEl);
         return;
@@ -52,7 +57,8 @@ function validate() {
 
         validateOk(priceEl, validationPriceMoreThenZeroEl);
     }
-    if (cost <= 0){
+    
+    if (cost <= 0 && (el === costEl || el === saveEl)){
 
         validateWarn(costEl, validationCostMoreThenZeroEl);
         return;
@@ -61,7 +67,7 @@ function validate() {
         validateOk(costEl, validationCostMoreThenZeroEl);
     }
 
-    if( price <= cost){
+    if( price <= cost  && (el === priceEl || el === saveEl)){
 
         validateWarn(priceEl, validationPriceMoreThenCostEl);
         return;
@@ -72,7 +78,7 @@ function validate() {
 
     if (isDiscountEl.checked) {
 
-        if( price <= discountPrice){
+        if( price <= discountPrice  && (el === priceEl || el === saveEl)){
             
             validateWarn(priceEl, validationPriceMoreThenDiscountPriceEl);
             return;
@@ -81,7 +87,7 @@ function validate() {
             validateOk(priceEl, validationPriceMoreThenDiscountPriceEl);
         }
 
-        if( discountPrice <= cost){
+        if( discountPrice <= cost  && (el === discountPriceEl || el === saveEl)){
 
             validateWarn(discountPriceEl, validationDiscMoreThenCostEl);
             return;
@@ -94,13 +100,31 @@ function validate() {
 
 }
 
-['input','change','click'].forEach(event => {
+
+
+['onfocus','click'].forEach(event => {
+//   nameEl.addEventListener(event, validate);
+//   priceEl.addEventListener(event, validate);
+//   isDiscountEl.addEventListener(event, validate);
+//   discountPriceEl.addEventListener(event,  validate);
+//   costEl.addEventListener(event,  validate);
+  saveEl.addEventListener(event,  validate);
+});
+
+['blur'].forEach(event => {
   nameEl.addEventListener(event, validate);
   priceEl.addEventListener(event, validate);
   isDiscountEl.addEventListener(event, validate);
   discountPriceEl.addEventListener(event,  validate);
   costEl.addEventListener(event,  validate);
-  saveEl.addEventListener(event,  validate);
 });
+
+// ['input','change','click'].forEach(event => {
+//       nameEl.addEventListener(event, offDisable);
+//       priceEl.addEventListener(event, offDisable);
+//       isDiscountEl.addEventListener(event, offDisable);
+//       discountPriceEl.addEventListener(event,  offDisable);
+//       costEl.addEventListener(event,  offDisable);
+//     });
 
 // validate();
