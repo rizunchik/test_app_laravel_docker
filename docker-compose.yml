@@ -16,6 +16,7 @@ services:
       - ./:/var/www
     depends_on:
       - db
+    command: sh -lc "composer install --no-interaction --prefer-dist --optimize-autoloader && php-fpm"
   db:
     image: mysql:9.4
     restart: always
