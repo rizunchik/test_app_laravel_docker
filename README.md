@@ -12,7 +12,7 @@ git clone git@github.com:rizunchik/test_app_laravel_docker.git
 
 4. Set password in .env
 
-    DB_PASSWORD
+    DB_PASSWORD, 
     DB_ROOT_PASSWORD
 
 5. Check or change:
