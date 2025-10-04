@@ -10,15 +10,11 @@ docker compose up -d
 
 3. Check or change:
 
-    - file .env
-
-        DB_DATABASE
-
     - file docker-compose.yml
 
         MYSQL_DATABASE
 
-    The values ​​must be the same. If a database with that name already exists, change the name.
+    If a database with that name already exists, change the name.
 
     - file docker-compose.yml
 
@@ -34,12 +30,12 @@ docker compose up -d
 
         If ports are busy, change it before ":".
 
-4. Run migrations
-
-docker compose exec app php artisan migrate
-
-5. Open browser
+4. Open browser
 
     http://localhost:8080/ or http://localhost:your_port/
+
+    Link on Telescope Jobs
+
+    http://localhost:8080/telescope/jobs
 
 
