@@ -4,11 +4,16 @@ Installation
 
 git clone git@github.com:rizunchik/test_app_laravel_docker.git
 
-2. Run docker
+2. Create .env
 
-docker compose up -d
+    cp .env.example .env
 
-3. Check or change:
+3. Set password in .env
+
+    DB_PASSWORD
+    DB_ROOT_PASSWORD
+
+4. Check or change:
 
     - file docker-compose.yml
 
@@ -30,7 +35,11 @@ docker compose up -d
 
         If ports are busy, change it before ":".
 
-4. Open browser
+5. Run docker
+
+    docker compose up -d
+
+6. Open browser
 
     http://localhost:8080/ or http://localhost:your_port/
 
