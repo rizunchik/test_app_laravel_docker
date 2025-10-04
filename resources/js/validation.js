@@ -39,6 +39,7 @@ function validate() {
 
     if (nameEl.value.length == 0){
         validateWarn(nameEl, validationEmptyNameEl);
+        return;
     }else{
         validateOk(nameEl, validationEmptyNameEl);
     }
