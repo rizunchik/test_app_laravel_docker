@@ -38,7 +38,9 @@ WARNING!!! If you go straight to step 5, standard passwords will be used.
             ports: 
             - 5173:5173
 
-        If ports are busy, change it before ":".
+    If ports are busy, change it before ":".
+    If you change DB_PORT (example DB_PORT=3337) in the file .env, then you need to change 3306:3306 to 3307:3306 it in the file docker-compose.yml.
+
 
 6. Run docker
 
