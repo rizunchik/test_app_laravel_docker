@@ -22,16 +22,14 @@
     <div class="text-red-600">{{ $message }}</div>
 @enderror
 
-<form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('product.store') }}" id="product_form" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="card shadow-sm mb-4">
         <div class="card-body">
             <div class="mb-3">
                 <label for="name" class="form-label">Назва</label>
                 <input type="text" class="form-control" name="name" aria-describedby="validationEmptyName" id="name" placeholder="Назва">
-                <div id="validationEmptyName" class="d-none">
-                    Назва має мати більше трьох символів.
-                </div>
+                <div id="validationName" class="invalid-feedback"></div>
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Опис</label>
@@ -59,15 +57,7 @@
         <div class="input-group mb-3">
             <span class="input-group-text">₴</span>
             <input type="text" name="price" id="price" class="form-control" aria-describedby="validationPriceMoreThenZero validationPriceMoreThenDiscountPrice validationPriceMoreThenCost" value="0.00">
-            <div id="validationPriceMoreThenZero" class="d-none">
-                Ціна повинна бути більше 0.
-            </div>
-            <div id="validationPriceMoreThenDiscountPrice" class="d-none">
-                Ціна повинна бути більша ніж ціна зі знижкою.
-            </div>
-            <div id="validationPriceMoreThenCost" class="d-none">
-                Ціна повинна бути більша ніж ціна собівартості.
-            </div>
+            <div id="validationPrice" class="invalid-feedback"></div>
         </div>
 
         <div class="form-check form-switch">
@@ -79,9 +69,7 @@
         <div class="input-group mb-3">
             <span class="input-group-text">₴</span>
             <input type="text" name="discount_price" id="discount_price" class="form-control" aria-describedby="validationDiscMoreThenCost" value="0.00">
-            <div id="validationDiscMoreThenCost" class="d-none">
-                Ціна зі знижкою повинна бути більша ніж ціна собівартості.
-            </div>
+            <div id="validationDiscountPrice" class="invalid-feedback"></div>
         </div>
 
         <div class="row">
@@ -90,9 +78,7 @@
                 <div class="input-group">
                     <span class="input-group-text">₴</span>
                     <input type="text" name="cost" id="cost" class="form-control" value="0.00">
-                    <div id="validationCostMoreThenZero" class="d-none"  aria-describedby="validationCostMoreThenZero">
-                        Собівартість повинна бути більше 0.
-                    </div>
+                    <div id="validationCost" class="invalid-feedback"></div>
                 </div>
                 
             </div>
@@ -143,6 +129,8 @@
       uploadcare_public_key: '095956eebcc4fa01f730',
     });
   </script>
+
+<script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>
 
 @push('scripts')
   @vite('resources/js/margin_profit_calculation.js')

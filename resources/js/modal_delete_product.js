@@ -1,5 +1,8 @@
-const modelDelete = document.getElementById('modal_delete');
-modelDelete.addEventListener('show.bs.modal', function (event) {
+const modalDelete = document.getElementById('modal_delete');
+if (modalDelete) {
+
+
+modalDelete.addEventListener('show.bs.modal', function (event) {
 
     const button = event.relatedTarget;
 
@@ -7,9 +10,10 @@ modelDelete.addEventListener('show.bs.modal', function (event) {
     const product_name = button.getAttribute('data-bs-product-name');
 
 
-    const modalHeaderH5 = modelDelete.querySelector('.modal-header h5');
-    const modalFormDelete = modelDelete.querySelector('.modal-footer form');
+    const modalHeaderH5 = modalDelete.querySelector('.modal-header h5');
+    const modalFormDelete = modalDelete.querySelector('.modal-footer form');
 
     modalHeaderH5.textContent = 'Видалення товару ' + product_name;
     modalFormDelete.action = `${location.origin}/products/${product_id}`;
 });
+}

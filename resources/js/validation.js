@@ -1,130 +1,79 @@
-const nameEl = document.getElementById('name');
-const priceEl = document.getElementById('price');
-const isDiscountEl = document.getElementById('is_discount');
-const discountPriceEl = document.getElementById('discount_price');
-const costEl = document.getElementById('cost');
-const saveEl = document.getElementById('save');
-
-function num(el){
-    let v = parseFloat(String(el.value).replace(',', '.'));
-    return Number.isFinite(v) ? v : 0;
-}
-
-function validateWarn(inputEl, feedbackEl ){
-    inputEl.classList.add('is-invalid');
-    feedbackEl.classList.add('invalid-feedback');
-    feedbackEl.classList.remove('d-none');
-    saveEl.disabled = true;
-    return false;
-}
-function validateOk(inputEl, feedbackEl ){
-    inputEl.classList.remove('is-invalid');
-    feedbackEl.classList.remove('invalid-feedback');
-    feedbackEl.classList.add('d-none');
-    offDisable();
-    
-}
-
-function offDisable(){
-    saveEl.disabled = false;
-}
-
-function validate(e) {
-    const el = e.target;
-    let price = num(priceEl);
-    let discountPrice = num(discountPriceEl);
-    let cost  = num(costEl);
-
-    var validationPriceMoreThenZeroEl = document.getElementById('validationPriceMoreThenZero');
-    var validationCostMoreThenZeroEl = document.getElementById('validationCostMoreThenZero');
-    var validationPriceMoreThenDiscountPriceEl = document.getElementById('validationPriceMoreThenDiscountPrice');
-    var validationPriceMoreThenCostEl = document.getElementById('validationPriceMoreThenCost');
-    var validationDiscMoreThenCostEl = document.getElementById('validationDiscMoreThenCost');
-    var validationEmptyNameEl = document.getElementById('validationEmptyName');
-
-    if (nameEl.value.length < 4 && (el === nameEl || el === saveEl)){
-        validateWarn(nameEl, validationEmptyNameEl);
-        return;
-    }else{
-        validateOk(nameEl, validationEmptyNameEl);
-    }
-
-    if (price <= 0  && (el === priceEl || el === saveEl)){
-
-        validateWarn(priceEl, validationPriceMoreThenZeroEl);
-        return;
-    }else{
-
-        validateOk(priceEl, validationPriceMoreThenZeroEl);
-    }
-    
-    if (cost <= 0 && (el === costEl || el === saveEl)){
-
-        validateWarn(costEl, validationCostMoreThenZeroEl);
-        return;
-    }else{
-
-        validateOk(costEl, validationCostMoreThenZeroEl);
-    }
-
-    if( price <= cost  && (el === priceEl || el === saveEl)){
-
-        validateWarn(priceEl, validationPriceMoreThenCostEl);
-        return;
-    }else{
-        
-        validateOk(priceEl, validationPriceMoreThenCostEl);
-    }
-
-    if (isDiscountEl.checked) {
-
-        if( price <= discountPrice  && (el === priceEl || el === saveEl)){
-            
-            validateWarn(priceEl, validationPriceMoreThenDiscountPriceEl);
-            return;
-        }else{
-
-            validateOk(priceEl, validationPriceMoreThenDiscountPriceEl);
-        }
-
-        if( discountPrice <= cost  && (el === discountPriceEl || el === saveEl)){
-
-            validateWarn(discountPriceEl, validationDiscMoreThenCostEl);
-            return;
-        }else{
-            
-            validateOk(discountPriceEl, validationDiscMoreThenCostEl);
-        }
-
-    }
-
-}
-
-
-
-['onfocus','click'].forEach(event => {
-//   nameEl.addEventListener(event, validate);
-//   priceEl.addEventListener(event, validate);
-//   isDiscountEl.addEventListener(event, validate);
-//   discountPriceEl.addEventListener(event,  validate);
-//   costEl.addEventListener(event,  validate);
-  saveEl.addEventListener(event,  validate);
+const validator = new JustValidate('#product_form', {
+    errorFieldCssClass: 'is-invalid', 
+    successFieldCssClass: '', 
 });
 
-['blur'].forEach(event => {
-  nameEl.addEventListener(event, validate);
-  priceEl.addEventListener(event, validate);
-  isDiscountEl.addEventListener(event, validate);
-  discountPriceEl.addEventListener(event,  validate);
-  costEl.addEventListener(event,  validate);
-});
+function toNum(value){
+    return parseFloat(String(value).replace(',', '.'));
+}
 
-// ['input','change','click'].forEach(event => {
-//       nameEl.addEventListener(event, offDisable);
-//       priceEl.addEventListener(event, offDisable);
-//       isDiscountEl.addEventListener(event, offDisable);
-//       discountPriceEl.addEventListener(event,  offDisable);
-//       costEl.addEventListener(event,  offDisable);
-//     });
+validator
+    .addField('[name="name"]', [
+        {
+            rule: 'required',
+            errorMessage: 'Поле обовʼязкове',
+        },
+        {
+            rule: 'minLength',
+            value: 4,
+            errorMessage: 'Назва повинна мати більше трьох символів.',
+        },],{
+            errorsContainer: '#validationName'
+    })
+    .addField('#price', [
+        {
+            rule: 'required',
+            errorMessage: 'Обовʼязкове поле',
+        },
+        {
+            validator: (value) => toNum(value) > 0,
+            errorMessage: 'Ціна повинна бути більше 0',
+        },
+        {
+            validator: (value, fields) => {
+                const cost = parseFloat(document.querySelector('#cost').value || 0);
+                return parseFloat(value) > cost;
+        },
+            errorMessage: 'Ціна повинна бути більша ніж ціна собівартості',
+        },
+        {
+            validator: (value, fields) => {
+                const isDiscount = document.querySelector('#is_discount').checked;
+                const discountPrice = parseFloat(document.querySelector('#discount_price').value || 0);
+                return !isDiscount || parseFloat(value) > discountPrice;
+        },
+            errorMessage: 'Ціна повинна бути більша ніж ціна зі знижкою, якщо включено знижку',
+        }],{
+            errorsContainer: '#validationPrice'
+    })
+    .addField('#discount_price', [
+        {
+            validator: (value) => {
+                if (!document.querySelector('#is_discount').checked) return true;
+                return toNum(value) > 0;
+            },
+            errorMessage: 'Discount price має бути більше 0 (коли знижка ввімкнена)',
+        },
+        {
+            validator: (value, fields) => {
+                const cost = parseFloat(document.querySelector('#cost').value || 0);
+                const isDiscount = document.querySelector('#is_discount').checked;
+                return !isDiscount || parseFloat(value) > cost;
+        },
+            errorMessage: 'Ціна зі знижкою повинна бути більша ніж ціна собівартості, якщо включено знижку',
+        }],{
+            errorsContainer: '#validationDiscountPrice'
+    })
+    .addField('#cost', [
+        {
+            validator: (value) => toNum(value) > 0,
+            errorMessage: 'Собівартість має бути більше 0',
+        },],{
+            errorsContainer: '#validationCost'
+        });
 
-// validate();
+    validator.onSuccess((event) => {
+        console.log(event.target);
+        event.target.submit(); 
+
+    });
