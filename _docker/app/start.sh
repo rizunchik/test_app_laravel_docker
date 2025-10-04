@@ -8,16 +8,6 @@ if [ ! -f /var/www/.env ]; then
   cp /var/www/.env.example /var/www/.env
 fi
 
-
-php -r "
-    $e=".env"; $s=file_get_contents($e);
-    $set=function($k,$v) use (&$s){ if(!preg_match("/^$k=\\S+/m",$s)) $s.="\n$k=$v"; };
-    function rnd(){ return bin2hex(random_bytes(12)); }
-    $set("DB_PASSWORD", rnd());
-    $set("DB_ROOT_PASSWORD", rnd());
-    file_put_contents($e,$s);
-    ";
-
 php -r "
         \$e = file_get_contents('.env');
         if (!preg_match(\"/^APP_KEY=\\S+/m\", \$e)) { exit(1); }
