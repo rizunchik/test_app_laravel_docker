@@ -19,9 +19,10 @@ WARNING!!! If you go straight to step 5, standard passwords will be used.
 
 5. Check or change:
 
-    - file docker-compose.yml
+    in .env
 
-        MYSQL_DATABASE
+    DB_PORT=3306
+    DB_DATABASE=test_app_laravel_docker
 
     If a database with that name already exists, change the name.
 
