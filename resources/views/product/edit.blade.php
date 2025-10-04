@@ -31,7 +31,7 @@
                 <label for="name" class="form-label">Назва</label>
                 <input type="text" class="form-control" name="name" aria-describedby="validationEmptyName" id="name" placeholder="Назва" value="{{ $product->name }}">
                 <div id="validationEmptyName" class="d-none">
-                    Заповніть назву.
+                  Назва має мати більше трьох символів.
                 </div>
             </div>
             <div class="mb-3">
