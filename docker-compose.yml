@@ -24,6 +24,11 @@ services:
       - ./tmp/db:/var/lib/mysql
     environment:
       MYSQL_DATABASE: test_app_laravel_docker
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USERNAME: root
+      DB_PASSWORD: root
       MYSQL_ROOT_PASSWORD: root
     ports:
       - 3306:3306 
